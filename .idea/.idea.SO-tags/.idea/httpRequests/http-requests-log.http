@@ -1,0 +1,7 @@
+GET http://localhost:56852/Tags/reloadAllTags
+Connection: Keep-Alive
+User-Agent: Apache-HttpClient/4.5.14 (Java/17.0.9)
+Accept-Encoding: br,deflate,gzip,x-gzip
+
+###
+

@@ -1,0 +1,161 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "StackExchange tags reading API",
+    "description": "This is a webAPI app that can copy StackExchange tags repository with limited functionality.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/Tags/reloadAllTags": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Removes all tags from database and retrieves updated tags from remote source.",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/Tags/getPage": {
+      "get": {
+        "tags": [
+          "Tags"
+        ],
+        "summary": "Get single page of tags.",
+        "parameters": [
+          {
+            "name": "Order",
+            "in": "query",
+            "description": "Sort order:\n * `asc` - Ascending\n * `desc` - Descending\n",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "default": "asc"
+            }
+          },
+          {
+            "name": "Sort",
+            "in": "query",
+            "description": "Sort order:\n * `share` - Order by tag count\n * `name` - Order by tag name\n",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "share",
+                "name"
+              ],
+              "default": "share"
+            }
+          },
+          {
+            "name": "PageNumber",
+            "in": "query",
+            "description": "Page number (starts with 0)",
+            "schema": {
+              "default": 0,
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "description": "Maximum amount of returned tags",
+            "schema": {
+              "default": 10,
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid query arguments were passed",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "has_synonyms": {
+            "type": "boolean"
+          },
+          "is_moderator_only": {
+            "type": "boolean"
+          },
+          "is_required": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "synonyms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "all_tags_percentage": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

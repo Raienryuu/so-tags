@@ -1,0 +1,39 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  api:
+    build:
+      context: "C:\\Users\\Peter\\source\\net\\SO-tags\\api"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/SO-tags.dll"
+    environment:
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Release/net8.0/SO-tags.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "so-tags:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Peter\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\Peter\\source\\net\\SO-tags\\api:/app:rw"
+    - "C:\\Users\\Peter\\source\\net\\SO-tags:/src:rw"
+    working_dir: "/app"
+  api_with_tests:
+    build:
+      context: "C:\\Users\\Peter\\source\\net\\SO-tags"
+      dockerfile: "./apiTests/Dockerfile-tests"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Release/net8.0/apiTests.dll"
+    environment:
+      ASPNETCORE_STATICWEBASSETS: "/app/bin/Release/net8.0/apiTests.staticwebassets.runtime.CT.json"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "apitests:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Peter\\.nuget\\packages:/root/.nuget/packages"
+    - "C:\\Users\\Peter\\source\\net\\SO-tags\\apiTests:/app:rw"
+    - "C:\\Users\\Peter\\source\\net\\SO-tags:/src:rw"
+    working_dir: "/app"

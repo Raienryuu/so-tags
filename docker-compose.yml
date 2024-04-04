@@ -1,0 +1,12 @@
+services:
+  api_with_tests:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile-with-tests
+    container_name: so-tags
+    ports:
+      - "8080"
+    expose:
+      - "8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Release
