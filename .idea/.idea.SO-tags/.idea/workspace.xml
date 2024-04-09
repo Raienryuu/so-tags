@@ -13,29 +13,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/DTOs/TagDTO.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/ICachePaginable.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/PageRequester.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/18c3bebd-f310-4530-993d-e121ff466d5a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/18c3bebd-f310-4530-993d-e121ff466d5a.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/f1c2beec-7f2b-4873-bb36-25ad383a12ad.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/f1c2beec-7f2b-4873-bb36-25ad383a12ad.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Controllers/TagsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Controllers/TagsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/DTOs/StackExchangeResponseWrapper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/DTOs/StackExchangeResponseWrapper.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/LocalTagsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/LocalTagsContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Migrations/20240403122828_InitialCreate.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Migrations/20240403122828_InitialCreate.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Migrations/LocalTagsContextModelSnapshot.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Models/Tag.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Models/Tag.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Models/TagsMetadata.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Models/TagsMetadata.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" afterDir="false" />
+    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request.">
       <change beforePath="$PROJECT_DIR$/api/SO-tags.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/api/SO-tags.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/tags.dat" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api/tags.dat-shm" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/api/tags.dat-wal" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/wwwroot/swagger/openapi.json" beforeDir="false" afterPath="$PROJECT_DIR$/api/wwwroot/swagger/openapi.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -363,8 +345,17 @@
       <workItem from="1712153973298" duration="20612000" />
       <workItem from="1712218379986" duration="9346000" />
       <workItem from="1712562244325" duration="15095000" />
-      <workItem from="1712648089327" duration="13717000" />
+      <workItem from="1712648089327" duration="14047000" />
     </task>
+    <task id="LOCAL-00001" summary="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request.">
+      <option name="closed" value="true" />
+      <created>1712668223480</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712668223480</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,6 +364,8 @@
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+    <MESSAGE value="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
