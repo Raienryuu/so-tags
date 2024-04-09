@@ -10,7 +10,7 @@ public record StackExchangeResponseWrapper<T>
   [JsonPropertyName("error_message")] public string? ErrorMessage { get; set; }
   [JsonPropertyName("error_name")] public string? ErrorName { get; set; }
   [JsonPropertyName("has_more")] public bool HasMore { get; set; }
-  [JsonPropertyName("items")] public List<Tag> Items { get; set; }
+  [JsonPropertyName("items")] public List<T> Items { get; set; }
   [JsonPropertyName("page")] public int? Page { get; set; }
   [JsonPropertyName("page_size")] public int? PageSize { get; set; }
   [JsonPropertyName("quota_max")] public int QuotaMax { get; set; }

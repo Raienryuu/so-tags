@@ -18,22 +18,12 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.3" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Migrations\" />
-    </ItemGroup>
     
     <ItemGroup>
         <InternalsVisibleTo Include="apiTests"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="wwwroot\swagger\openapi.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
-      <Content Include="..\apiTests\bin\Debug\net8.0\tags.dat">
-        <Link>tags.dat</Link>
-      </Content>
       <Content Include="..\docker-compose.yml">
         <Link>docker-compose.yml</Link>
       </Content>

@@ -1,3 +1,4 @@
+using Microsoft.OpenApi.Models;
 using SO_tags.Controllers;
 using SO_tags.Providers;
 
@@ -18,6 +19,7 @@ public class Program
     builder.Services.AddDbContext<LocalTagsContext>();
 
     var db = GetDatabaseContext(builder.Services);
+    db.Database.EnsureDeletedAsync();
     db.Database.EnsureCreatedAsync();
 
     var app = builder.Build();
@@ -27,20 +29,16 @@ public class Program
     app.UseSwagger();
     app.UseSwaggerUI(o =>
     {
-      o.SwaggerEndpoint("swagger/openapi.json", "SO Tags webAPI");
+      o.SwaggerEndpoint("/swagger/openapi.json", "v1");
       o.RoutePrefix = string.Empty;
     });
     // }
-
 
     app.UseHttpsRedirection();
 
     app.UseStaticFiles();
 
     app.MapControllers().WithOpenApi();
-
-
-
 
     app.Run();
   }

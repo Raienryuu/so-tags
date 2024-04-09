@@ -11,7 +11,7 @@
         "tags": [
           "Tags"
         ],
-        "summary": "Removes all tags from database and retrieves updated tags from remote source.",
+        "summary": "Removes all tags from local storage.",
         "responses": {
           "200": {
             "description": "Success"
@@ -36,7 +36,7 @@
                 "asc",
                 "desc"
               ],
-              "default": "asc"
+              "default": "desc"
             }
           },
           {
@@ -55,9 +55,9 @@
           {
             "name": "PageNumber",
             "in": "query",
-            "description": "Page number (starts with 0)",
+            "description": "Page number (starts with 1)",
             "schema": {
-              "default": 0,
+              "default": 1,
               "type": "integer",
               "format": "int32"
             }
@@ -128,25 +128,9 @@
             "type": "integer",
             "format": "int32"
           },
-          "has_synonyms": {
-            "type": "boolean"
-          },
-          "is_moderator_only": {
-            "type": "boolean"
-          },
-          "is_required": {
-            "type": "boolean"
-          },
           "name": {
             "type": "string",
-            "nullable": true
-          },
-          "synonyms": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true
+            "nullable": false
           },
           "all_tags_percentage": {
             "type": "number",

@@ -18,6 +18,14 @@ public class LocalTagsContext : DbContext
     optionsBuilder.UseSqlite("Data Source=tags.dat");
   }
 
+  protected override void OnModelCreating(ModelBuilder modelBuilder)
+  {
+    base.OnModelCreating(modelBuilder);
+    modelBuilder.Entity<TagsMetadata>()
+      .Property(m => m.TotalTags)
+      .ValueGeneratedNever();
+  }
+
 
   public DbSet<Tag> Tags { get; set; }
   public DbSet<TagsMetadata> Metadata { get; set; }
@@ -32,26 +40,43 @@ public class LocalTagsContext : DbContext
 
   public async Task RecalculateAllTagsPercentageShare()
   {
+    const int batchSize = 500;
     var hasMore = true;
     var totalTagsInDb =
       await Metadata.Select(m => m.TotalTags).FirstOrDefaultAsync();
-    if (totalTagsInDb == 0) return;
+    if (totalTagsInDb == 0)
+    {
+      totalTagsInDb = await Tags.SumAsync(x => x.Count);
+    }
+
     var rowsUpdated = 0;
     while (hasMore)
     {
-      var batch = await Tags.OrderBy(t => t.Name).Skip(rowsUpdated).Take(100).ToListAsync();
+      var batch = await Tags.OrderBy(t => t.Count)
+        .Skip(rowsUpdated)
+        .Take(batchSize)
+        .ToListAsync();
 
       foreach (var tag in batch)
       {
-        tag.AllTagsPercentage = tag.Count / totalTagsInDb;
-        Tags.Update(tag);
+        try
+        {
+          tag.LocalTagsPercentage = tag.Count / (double)totalTagsInDb;
+          Tags.Update(tag);
+        }
+        catch (DivideByZeroException _)
+        {
+          _logger.LogInformation(
+            "Attempt to recalculate tags percentage share failed. No tags in local storage.");
+        }
       }
+
       rowsUpdated += await SaveChangesAsync();
-      if (batch.Count < 100) hasMore = false;
+      if (batch.Count < batchSize) hasMore = false;
     }
 
     _logger.LogInformation(
-      "Recalculated share of all tags for {} tags.", rowsUpdated);
+      "Recalculated share of all stored locally tags for {} tags.", rowsUpdated);
   }
 
   public async Task RecalculateTagsPercentageShareForCollection(
@@ -63,7 +88,7 @@ public class LocalTagsContext : DbContext
     var rowsUpdated = 0;
     foreach (var tag in tags)
     {
-      tag.AllTagsPercentage = (double)tag.Count / totalTagsInDb;
+      tag.LocalTagsPercentage = (double)tag.Count / totalTagsInDb;
       Tags.Update(tag);
     }
 

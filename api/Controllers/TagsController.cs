@@ -13,29 +13,36 @@ public class TagsController(
   LocalTagsContext db,
   ILogger<TagsController> logger) : Controller
 {
+
+  /// <summary>
+  /// Removes all tags from local storage
+  /// </summary>
+  /// <returns></returns>
   [HttpGet, Route("reloadAllTags")]
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<IActionResult> ReloadAllTags()
   {
-    await remoteTagsProvider.GetAllTags();
+    await db.ClearDatabase();
     return Ok();
   }
 
+  /// <summary>
+  /// Get single page of tags
+  /// </summary>
+  /// <param name="args.Order"
+  /// Description="Sort order:\n * `asc` - Ascending\n * `desc` - Descending\n"></param>
+  /// <returns></returns>
   [HttpGet, Route("getPage")]
   [ProducesResponseType(typeof(IEnumerable<Tag>), StatusCodes.Status200OK)]
   [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
   public async Task<IActionResult> GetPage([FromQuery] QueryFilter args)
   {
+    var cache = new PageRequester(db, GetSortType(args), remoteTagsProvider,
+       logger, args.PageNumber, args.PageSize);
     try
     {
-      var metadata = await db.Metadata.FirstOrDefaultAsync();
-      if (metadata is null) await ReloadAllTags();
-      var query = ApplyFilters(args);
+      var tags = await cache.GetPage();
 
-      var tags = await query
-        .Skip(args.PageNumber * args.PageSize)
-        .Take(args.PageSize)
-        .ToListAsync();
       if (tags.Count == 0) return BadRequest("No tags found on given page.");
       return Ok(tags);
     }
@@ -53,12 +60,30 @@ public class TagsController(
     {
       case "name":
         if (args.Order?.ToLowerInvariant() == "desc")
-          return query = query.OrderByDescending(x => x.Name);
-        return query = query.OrderBy(x => x.Name);
+          return query.OrderByDescending(x => x.Name);
+        return query.OrderBy(x => x.Name);
       case "share":
         if (args.Order?.ToLowerInvariant() == "desc")
-          return query = query.OrderByDescending(x => x.Count);
-        return query = query.OrderBy(x => x.Count);
+          return query.OrderByDescending(x => x.Count);
+        return query.OrderBy(x => x.Count);
+    }
+
+    throw new ArgumentException("Invalid filter values provided.");
+  }
+
+  private TagsSort GetSortType(QueryFilter args)
+  {
+    var query = db.Tags.AsQueryable();
+    switch (args.Sort)
+    {
+      case "name":
+        if (args.Order?.ToLowerInvariant() == "desc")
+          return TagsSort.NameDesc;
+        return TagsSort.NameAsc;
+      case "share":
+        if (args.Order?.ToLowerInvariant() == "desc")
+          return TagsSort.ShareDesc;
+        return TagsSort.ShareAsc;
     }
 
     throw new ArgumentException("Invalid filter values provided.");
