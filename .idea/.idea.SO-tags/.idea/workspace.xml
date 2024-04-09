@@ -15,6 +15,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/SO-tags.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/api/SO-tags.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,6 +31,7 @@
     <setting file="file://$USER_HOME$/AppData/Local/Symbols/src/dotnet/runtime/1381d5ebd2ab1f292848d5b19b80cf71ac332508/src/libraries/System.Private.CoreLib/src/System/Threading/CancellationToken.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/api/Controllers/TagsController.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/api/LocalTagsContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/Peter/source/net/SO-tags/api/LocalTagsContext.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/api/Models/Tag.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/api/Program.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" root0="FORCE_HIGHLIGHTING" />
@@ -100,7 +103,7 @@
     ]
   }
 }</component>
-  <component name="RunManager" selected="Docker.SO-tags/Dockerfile">
+  <component name="RunManager" selected=".NET Launch Settings Profile.SO-tags: http">
     <configuration name="SO-tags" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
       <option name="PROGRAM_PARAMETERS" value="" />
@@ -344,6 +347,8 @@
       <workItem from="1712562244325" duration="15095000" />
       <workItem from="1712648089327" duration="14261000" />
       <workItem from="1712668606334" duration="2000" />
+      <workItem from="1712668659155" duration="310000" />
+      <workItem from="1712669626483" duration="306000" />
     </task>
     <task id="LOCAL-00001" summary="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request.">
       <option name="closed" value="true" />
@@ -361,7 +366,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712668441241</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Removed unused and cleaned up code.">
+      <option name="closed" value="true" />
+      <created>1712668961763</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1712668961763</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -372,7 +385,8 @@
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request." />
     <MESSAGE value="Merging" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merging" />
+    <MESSAGE value="Removed unused and cleaned up code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Removed unused and cleaned up code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

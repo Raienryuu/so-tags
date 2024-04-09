@@ -23,14 +23,4 @@
         <InternalsVisibleTo Include="apiTests"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="..\docker-compose.yml">
-            <Link>docker-compose.yml</Link>
-        </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Remove="tags.dat"/>
-    </ItemGroup>
-
 </Project>

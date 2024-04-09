@@ -29,13 +29,10 @@ public class TagsController(
   /// <summary>
   /// Get single page of tags
   /// </summary>
-  /// <param name="args.Order"
-  /// Description="Sort order:\n * `asc` - Ascending\n * `desc` - Descending\n"></param>
   /// <returns></returns>
   [HttpGet]
   [Route("getPage")]
   [ProducesResponseType(typeof(IEnumerable<Tag>), StatusCodes.Status200OK)]
-  [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
   public async Task<IActionResult> GetPage([FromQuery] QueryFilter args)
   {
     var cache = new PageRequester(db, GetSortType(args), remoteTagsProvider,
@@ -44,7 +41,7 @@ public class TagsController(
     {
       var tags = await cache.GetPage();
 
-      if (tags.Count == 0) return BadRequest("No tags found on given page.");
+      if (tags.Count == 0) return Ok("No tags found on given page.");
       return Ok(tags);
     }
     catch (ArgumentException ex)

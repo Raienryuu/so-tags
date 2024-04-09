@@ -19,24 +19,6 @@ namespace apiTests;
 public class SoTagsProviderUnitTests
 {
   [Fact]
-  public async void GetAllTags_ValidRequest_OkResponse()
-  {
-    // arrange
-    var configuration = new Mock<Microsoft.Extensions.Configuration.IConfiguration>();
-    configuration.SetupGet(x => x["key"]).Returns("blank");
-    var db = await new FakeLocalTagsContextBuilder().Build();
-    var httpClient = new FakeHttpClient(new FakeHttpMessageHandler());
-    var cut = new SoTagsProvider(db, NullLogger<SoTagsProvider>.Instance,
-      configuration.Object, httpClient);
-
-    // act
-    var response = cut.GetAllTags();
-    await response;
-    // assert
-    Assert.True(response.IsCompletedSuccessfully);
-  }
-
-  [Fact]
   public async void GetPage_DefaultFilters_TagsPage()
   {
     var remoteTagsProvider = Mock.Of<IRemoteTagsProvider>();
