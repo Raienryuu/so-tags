@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore;
 using SO_tags.DTOs;
 using SO_tags.Models;
 
@@ -12,7 +11,6 @@ public class SoTagsProvider : IRemoteTagsProvider
   private const int PageSize = 100;
 
   private readonly HttpClient _httpClient;
-  private readonly LocalTagsContext _tags;
   private readonly ILogger<SoTagsProvider> _logger;
   private readonly IConfiguration _configuration;
   private readonly TagsSort _sort;
@@ -24,7 +22,6 @@ public class SoTagsProvider : IRemoteTagsProvider
   {
     _configuration = configuration;
     _logger = logger;
-    _tags = context;
     var decompressionHandle = new HttpClientHandler
     {
       AutomaticDecompression =
@@ -121,37 +118,6 @@ public class SoTagsProvider : IRemoteTagsProvider
                   " ErrorMessage: " +
                   deserializedResponse.ErrorMessage;
     throw new HttpRequestException(errorMsg);
-  }
-
-  private async Task TryAddTagsToDatabase(IEnumerable<Tag> tags)
-  {
-    tags = tags.ToArray();
-    try
-    {
-      await _tags.AddRangeAsync(tags);
-      await UpdateTotalTagsCount(tags);
-      await _tags.SaveChangesAsync();
-    }
-    catch (Exception e)
-    {
-      _logger.LogCritical(e, "Unable to save tags in database.");
-      throw;
-    }
-  }
-
-  private async Task UpdateTotalTagsCount(IEnumerable<Tag> tags)
-  {
-    var newTagsNumber = tags.Sum(tag => tag.Count);
-    var metadata = await _tags.Metadata.FirstOrDefaultAsync();
-    var tagsNumber = 0;
-    if (metadata != null)
-    {
-      tagsNumber = metadata.TotalTags;
-      _tags.Metadata.Remove(metadata);
-    }
-
-    metadata = new TagsMetadata { TotalTags = tagsNumber + newTagsNumber };
-    await _tags.Metadata.AddAsync(metadata);
   }
 
 

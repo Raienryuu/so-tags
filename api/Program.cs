@@ -1,5 +1,3 @@
-using Microsoft.OpenApi.Models;
-using SO_tags.Controllers;
 using SO_tags.Providers;
 
 namespace SO_tags;
@@ -43,7 +41,8 @@ public class Program
     app.Run();
   }
 
-  private static LocalTagsContext GetDatabaseContext(IServiceCollection services)
+  private static LocalTagsContext GetDatabaseContext(
+    IServiceCollection services)
   {
     var servicesProvider = services.BuildServiceProvider();
     var scope = servicesProvider.CreateScope();

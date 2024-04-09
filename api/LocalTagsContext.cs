@@ -44,10 +44,7 @@ public class LocalTagsContext : DbContext
     var hasMore = true;
     var totalTagsInDb =
       await Metadata.Select(m => m.TotalTags).FirstOrDefaultAsync();
-    if (totalTagsInDb == 0)
-    {
-      totalTagsInDb = await Tags.SumAsync(x => x.Count);
-    }
+    if (totalTagsInDb == 0) totalTagsInDb = await Tags.SumAsync(x => x.Count);
 
     var rowsUpdated = 0;
     while (hasMore)
@@ -58,7 +55,6 @@ public class LocalTagsContext : DbContext
         .ToListAsync();
 
       foreach (var tag in batch)
-      {
         try
         {
           tag.LocalTagsPercentage = tag.Count / (double)totalTagsInDb;
@@ -69,32 +65,13 @@ public class LocalTagsContext : DbContext
           _logger.LogInformation(
             "Attempt to recalculate tags percentage share failed. No tags in local storage.");
         }
-      }
 
       rowsUpdated += await SaveChangesAsync();
       if (batch.Count < batchSize) hasMore = false;
     }
 
     _logger.LogInformation(
-      "Recalculated share of all stored locally tags for {} tags.", rowsUpdated);
-  }
-
-  public async Task RecalculateTagsPercentageShareForCollection(
-    IEnumerable<Tag> tags)
-  {
-    var totalTagsInDb =
-      await Metadata.Select(m => m.TotalTags).FirstOrDefaultAsync();
-    if (totalTagsInDb == 0) return;
-    var rowsUpdated = 0;
-    foreach (var tag in tags)
-    {
-      tag.LocalTagsPercentage = (double)tag.Count / totalTagsInDb;
-      Tags.Update(tag);
-    }
-
-    rowsUpdated += await SaveChangesAsync();
-
-    _logger.LogInformation(
-      "Recalculated share of all tags for {} tags.", rowsUpdated);
+      "Recalculated share of all stored locally tags for {} tags.",
+      rowsUpdated);
   }
 }

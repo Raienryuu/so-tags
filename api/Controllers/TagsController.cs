@@ -13,12 +13,12 @@ public class TagsController(
   LocalTagsContext db,
   ILogger<TagsController> logger) : Controller
 {
-
   /// <summary>
   /// Removes all tags from local storage
   /// </summary>
   /// <returns></returns>
-  [HttpGet, Route("reloadAllTags")]
+  [HttpGet]
+  [Route("reloadAllTags")]
   [ProducesResponseType(StatusCodes.Status200OK)]
   public async Task<IActionResult> ReloadAllTags()
   {
@@ -32,13 +32,14 @@ public class TagsController(
   /// <param name="args.Order"
   /// Description="Sort order:\n * `asc` - Ascending\n * `desc` - Descending\n"></param>
   /// <returns></returns>
-  [HttpGet, Route("getPage")]
+  [HttpGet]
+  [Route("getPage")]
   [ProducesResponseType(typeof(IEnumerable<Tag>), StatusCodes.Status200OK)]
   [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest)]
   public async Task<IActionResult> GetPage([FromQuery] QueryFilter args)
   {
     var cache = new PageRequester(db, GetSortType(args), remoteTagsProvider,
-       logger, args.PageNumber, args.PageSize);
+      logger, args.PageNumber, args.PageSize);
     try
     {
       var tags = await cache.GetPage();
@@ -53,27 +54,8 @@ public class TagsController(
     }
   }
 
-  private IQueryable<Tag> ApplyFilters(QueryFilter args)
-  {
-    var query = db.Tags.AsQueryable();
-    switch (args.Sort)
-    {
-      case "name":
-        if (args.Order?.ToLowerInvariant() == "desc")
-          return query.OrderByDescending(x => x.Name);
-        return query.OrderBy(x => x.Name);
-      case "share":
-        if (args.Order?.ToLowerInvariant() == "desc")
-          return query.OrderByDescending(x => x.Count);
-        return query.OrderBy(x => x.Count);
-    }
-
-    throw new ArgumentException("Invalid filter values provided.");
-  }
-
   private TagsSort GetSortType(QueryFilter args)
   {
-    var query = db.Tags.AsQueryable();
     switch (args.Sort)
     {
       case "name":

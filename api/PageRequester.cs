@@ -80,7 +80,6 @@ public class PageRequester(
         .ToList();
 
     foreach (var tag in localTags)
-    {
       switch (sortOrder)
       {
         case TagsSort.NameAsc:
@@ -99,7 +98,6 @@ public class PageRequester(
           tagsToGetFromRemote.Remove((int)tag.NameAscPosition!);
           break;
       }
-    }
 
     return tagsToGetFromRemote;
   }
@@ -107,10 +105,7 @@ public class PageRequester(
   private async Task<List<Tag>> GetTagsFromRemote(
     ICollection<int> missingTagsPositions)
   {
-    if (missingTagsPositions.Count == 0)
-    {
-      return [];
-    }
+    if (missingTagsPositions.Count == 0) return [];
 
     List<Tag> tags = [];
     for (var i = missingTagsPositions.First();
@@ -140,7 +135,6 @@ public class PageRequester(
     ICollection<int> missingTagsPositions)
   {
     foreach (var tag in tagsRange)
-    {
       switch (sortOrder)
       {
         case TagsSort.NameAsc:
@@ -159,7 +153,6 @@ public class PageRequester(
           missingTagsPositions.Remove((int)tag.NameAscPosition!);
           break;
       }
-    }
   }
 
   private async Task<List<Tag>> GetTagsRange(int startPosition)
@@ -253,7 +246,6 @@ public class PageRequester(
     int initialPosition)
   {
     for (var i = 0; i < tags.Count; i++)
-    {
       switch (sortOrder)
       {
         case TagsSort.NameAsc:
@@ -272,6 +264,5 @@ public class PageRequester(
           tags[i].NameAscPosition = initialPosition + i;
           break;
       }
-    }
   }
 }
