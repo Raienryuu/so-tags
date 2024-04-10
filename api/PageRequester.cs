@@ -1,7 +1,9 @@
+using System.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using SO_tags.DTOs;
 using SO_tags.Models;
 using SO_tags.Providers;
+using SO_tags.TagsSorting;
 
 namespace SO_tags;
 
@@ -18,31 +20,43 @@ public class PageRequester(
   TagsSort sortOrder,
   IRemoteTagsProvider remoteTags,
   ILogger logger,
-  int pageNumber = 1,
+  int pageNumber = 0,
   int pageSize = 20)
 {
-  private readonly int _initialPosition = pageNumber * pageSize;
+  private readonly int _initialPosition =
+    (pageNumber - StackExchangePageOffset) * pageSize;
+
+  private readonly ITagSortOrder _sortOrder = CreateSortOrder(sortOrder);
+
+  private const int BatchSize = 20;
+  private const int StackExchangePageOffset = 1;
+
+
+  private static ITagSortOrder CreateSortOrder(TagsSort sortOrder)
+  {
+    return sortOrder switch
+    {
+      TagsSort.NameAsc => new NameAscSort(),
+      TagsSort.NameDesc => new NameDescSort(),
+      TagsSort.ShareAsc => new ShareAscSort(),
+      TagsSort.ShareDesc => new ShareDescSort(),
+      _ => new NameAscSort()
+    };
+  }
 
   public async Task<List<TagDTO>> GetPage()
   {
-    var tagsFromDb = await GetTagsQuery().Take(pageSize)
-      .ToListAsync();
-    logger.LogInformation("Fetched {tags} from local storage.",
-      tagsFromDb.Count);
+    var tagsFromDb = await FetchTagsFromDb();
 
-    if (tagsFromDb.Count < pageSize)
-    {
-      var missingTags = GetMissingTagsPositions(tagsFromDb);
-      var tagsFromRemote = await GetTagsFromRemote(missingTags);
+    await HandleMissingTags(tagsFromDb);
 
-      AddOrUpdateTags(tagsFromRemote);
-      await db.SaveChangesAsync();
+    var requestedRange = SelectTagsRequested(tagsFromDb);
+    return requestedRange;
+  }
 
-      tagsFromDb.AddRange(tagsFromRemote);
-      await db.RecalculateAllTagsPercentageShare();
-    }
-
-    var requestedRange = SelectOnlyRequestedRange(tagsFromDb)
+  private List<TagDTO> SelectTagsRequested(IEnumerable<Tag> tagsFromDb)
+  {
+    var requestedRange = _sortOrder.SelectOnlyRequestedRange(tagsFromDb)
       .Select(x => new TagDTO()
       {
         Count = x.Count,
@@ -54,50 +68,40 @@ public class PageRequester(
     return requestedRange;
   }
 
-  private IOrderedEnumerable<Tag> SelectOnlyRequestedRange(
-    List<Tag> combinedTags)
+  private async Task<List<Tag>> FetchTagsFromDb()
   {
-    switch (sortOrder)
+    var query = db.Tags.AsQueryable();
+    var tagsFromDb = await _sortOrder
+      .GetTagsQuery(query, _initialPosition, pageSize)
+      .Take(pageSize)
+      .ToListAsync();
+    logger.LogInformation("Fetched {tagsCount} tags from local storage.",
+      tagsFromDb.Count);
+    return tagsFromDb;
+  }
+
+  private async Task HandleMissingTags(List<Tag> tagsFromDb)
+  {
+    if (tagsFromDb.Count < pageSize)
     {
-      case TagsSort.NameAsc:
-        return combinedTags.OrderBy(x => x.NameAscPosition);
-      case TagsSort.NameDesc:
-        return combinedTags.OrderBy(x => x.NameDescPosition);
-      case TagsSort.ShareAsc:
-        return combinedTags.OrderBy(x => x.ShareAscPosition);
-      case TagsSort.ShareDesc:
-        return combinedTags.OrderBy(x => x.ShareDescPosition);
-      default:
-        return combinedTags.OrderBy(x => x.NameAscPosition);
+      var missingTags = GetMissingTagsPositions(tagsFromDb);
+      var tagsFromRemote = await GetTagsFromRemote(missingTags);
+
+      AddOrUpdateTags(tagsFromRemote);
+      await db.SaveChangesAsync();
+
+      tagsFromDb.AddRange(tagsFromRemote);
+      await db.RecalculateAllTagsPercentageShare();
     }
   }
 
-
-  private List<int> GetMissingTagsPositions(List<Tag> localTags)
+  private List<int> GetMissingTagsPositions(IEnumerable<Tag> localTags)
   {
     var tagsToGetFromRemote =
       Enumerable.Range(_initialPosition, pageSize)
         .ToList();
 
-    foreach (var tag in localTags)
-      switch (sortOrder)
-      {
-        case TagsSort.NameAsc:
-          tagsToGetFromRemote.Remove((int)tag.NameAscPosition!);
-          break;
-        case TagsSort.NameDesc:
-          tagsToGetFromRemote.Remove((int)tag.NameDescPosition!);
-          break;
-        case TagsSort.ShareAsc:
-          tagsToGetFromRemote.Remove((int)tag.ShareAscPosition!);
-          break;
-        case TagsSort.ShareDesc:
-          tagsToGetFromRemote.Remove((int)tag.ShareDescPosition!);
-          break;
-        default:
-          tagsToGetFromRemote.Remove((int)tag.NameAscPosition!);
-          break;
-      }
+    _sortOrder.RemoveFoundTagsFromMissing(localTags, tagsToGetFromRemote);
 
     return tagsToGetFromRemote;
   }
@@ -107,61 +111,41 @@ public class PageRequester(
   {
     if (missingTagsPositions.Count == 0) return [];
 
-    List<Tag> tags = [];
+    List<Tag> tagsFromRemote = [];
     for (var i = missingTagsPositions.First();
          i <= missingTagsPositions.Last();
          i++)
     {
-      var startPosition = missingTagsPositions.ElementAt(0);
-      startPosition -= startPosition % 20;
-      var tagsRange = await GetTagsRange(startPosition);
+      var startPosition = GetStartTagPosition(missingTagsPositions);
+      var tagsRange = await GetBatchOfTags(startPosition);
 
-      if (tagsRange.Count == 0) return tags;
+      if (tagsRange.Count == 0) return tagsFromRemote;
 
-      AssignSortPosition(tagsRange, startPosition);
+      _sortOrder.AssignSortPosition(tagsRange, startPosition);
+      _sortOrder.RemoveFoundTagsFromMissing(tagsRange, missingTagsPositions);
+      tagsFromRemote.AddRange(tagsRange);
 
-      tags.AddRange(tagsRange);
-
-      RemoveFoundTagsFromMissing(tagsRange, missingTagsPositions);
       if (missingTagsPositions.Count == 0) break;
       i = missingTagsPositions.First();
     }
 
-    logger.LogInformation("Fetched {tags} from remote API.", tags.Count);
-    return tags;
+    logger.LogInformation("Fetched {tags} from remote API.",
+      tagsFromRemote.Count);
+    return tagsFromRemote;
   }
 
-  private void RemoveFoundTagsFromMissing(IEnumerable<Tag> tagsRange,
-    ICollection<int> missingTagsPositions)
+  private static int GetStartTagPosition(IEnumerable<int> missingTagsPositions)
   {
-    foreach (var tag in tagsRange)
-      switch (sortOrder)
-      {
-        case TagsSort.NameAsc:
-          missingTagsPositions.Remove((int)tag.NameAscPosition!);
-          break;
-        case TagsSort.NameDesc:
-          missingTagsPositions.Remove((int)tag.NameDescPosition!);
-          break;
-        case TagsSort.ShareAsc:
-          missingTagsPositions.Remove((int)tag.ShareAscPosition!);
-          break;
-        case TagsSort.ShareDesc:
-          missingTagsPositions.Remove((int)tag.ShareDescPosition!);
-          break;
-        default:
-          missingTagsPositions.Remove((int)tag.NameAscPosition!);
-          break;
-      }
+    var startPosition = missingTagsPositions.ElementAt(0);
+    startPosition -= startPosition % BatchSize;
+    return startPosition;
   }
 
-  private async Task<List<Tag>> GetTagsRange(int startPosition)
+  private async Task<List<Tag>> GetBatchOfTags(int startPosition)
   {
-    const int size = 20;
-    const int stackExchangePageOffset = 1;
-    var page = startPosition / size + stackExchangePageOffset;
+    var page = startPosition / BatchSize + StackExchangePageOffset;
     var tagsRange = await remoteTags
-      .GetSinglePage(page, size, sortOrder);
+      .GetSinglePage(page, BatchSize, sortOrder);
     return tagsRange.ToList();
   }
 
@@ -177,92 +161,10 @@ public class PageRequester(
       else
       {
         var tagPosition = _initialPosition + i;
-        SetPositionForTag(tagPosition, tagInDb);
+        _sortOrder.SetPositionForTag(tagPosition, tagInDb);
       }
     }
 
     await db.SaveChangesAsync();
-  }
-
-  private IQueryable<Tag> GetTagsQuery()
-  {
-    var query = db.Tags.AsQueryable();
-    switch (sortOrder)
-    {
-      case TagsSort.NameAsc:
-        return query.Where(x =>
-          x.NameAscPosition != null && x.NameAscPosition >= _initialPosition &&
-          x.NameAscPosition < _initialPosition + pageSize).OrderBy(x =>
-          x.NameAscPosition);
-      case TagsSort.NameDesc:
-        return query.Where(x =>
-          x.NameDescPosition != null &&
-          x.NameDescPosition >= _initialPosition &&
-          x.NameDescPosition < _initialPosition + pageSize).OrderBy(x =>
-          x.NameDescPosition);
-      case TagsSort.ShareAsc:
-        return query.Where(x =>
-          x.ShareAscPosition != null &&
-          x.ShareAscPosition >= _initialPosition &&
-          x.ShareAscPosition < _initialPosition + pageSize).OrderBy(x =>
-          x.ShareAscPosition);
-      case TagsSort.ShareDesc:
-        return query.Where(x =>
-          x.ShareDescPosition != null &&
-          x.ShareDescPosition >= _initialPosition &&
-          x.ShareDescPosition < _initialPosition + pageSize).OrderBy(x =>
-          x.ShareDescPosition);
-      default:
-        return query.Where(x =>
-          x.NameAscPosition != null && x.NameAscPosition >= _initialPosition &&
-          x.NameAscPosition < _initialPosition + pageSize).OrderBy(x =>
-          x.NameAscPosition);
-    }
-  }
-
-  private void SetPositionForTag(int tagPosition, Tag tag)
-  {
-    switch (sortOrder)
-    {
-      case TagsSort.NameAsc:
-        tag.NameAscPosition = tagPosition;
-        break;
-      case TagsSort.NameDesc:
-        tag.NameDescPosition = tagPosition;
-        break;
-      case TagsSort.ShareAsc:
-        tag.ShareAscPosition = tagPosition;
-        break;
-      case TagsSort.ShareDesc:
-        tag.ShareDescPosition = tagPosition;
-        break;
-      default:
-        tag.NameAscPosition = tagPosition;
-        break;
-    }
-  }
-
-  private void AssignSortPosition(List<Tag> tags,
-    int initialPosition)
-  {
-    for (var i = 0; i < tags.Count; i++)
-      switch (sortOrder)
-      {
-        case TagsSort.NameAsc:
-          tags[i].NameAscPosition = initialPosition + i;
-          break;
-        case TagsSort.NameDesc:
-          tags[i].NameDescPosition = initialPosition + i;
-          break;
-        case TagsSort.ShareAsc:
-          tags[i].ShareAscPosition = initialPosition + i;
-          break;
-        case TagsSort.ShareDesc:
-          tags[i].ShareDescPosition = initialPosition + i;
-          break;
-        default:
-          tags[i].NameAscPosition = initialPosition + i;
-          break;
-      }
   }
 }

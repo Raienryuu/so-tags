@@ -39,6 +39,7 @@ public class TagsController(
       logger, args.PageNumber, args.PageSize);
     try
     {
+      if (args.PageNumber < 1) return BadRequest("pageNumber is lower than 1");
       var tags = await cache.GetPage();
 
       if (tags.Count == 0) return Ok("No tags found on given page.");
