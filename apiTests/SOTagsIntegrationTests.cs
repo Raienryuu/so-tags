@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using SO_tags;
 
@@ -9,7 +8,7 @@ namespace apiTests
         readonly TagsApiFactory app = new();
 
         [Fact]
-        public async Task ReloadAllTags()
+        public async Task RemoveTagsInLocalStorage()
         {
             var httpClient = app.CreateClient();
 
@@ -26,7 +25,6 @@ namespace apiTests
             var response = await httpClient.GetAsync("Tags/getPage");
 
             Assert.True(response.IsSuccessStatusCode);
-
         }
     }
 }

@@ -1,8 +1,5 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using Microsoft.Extensions.Logging.Abstractions;
-using Newtonsoft.Json.Bson;
+﻿using Microsoft.Extensions.Logging.Abstractions;
 using SO_tags;
-using SO_tags.Models;
 
 namespace SO_tagsTests.Fakes;
 

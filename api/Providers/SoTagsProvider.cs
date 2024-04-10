@@ -2,6 +2,7 @@
 using System.Text.Json;
 using SO_tags.DTOs;
 using SO_tags.Models;
+using SO_tags.TagsSorting;
 
 namespace SO_tags.Providers;
 
@@ -13,9 +14,8 @@ public class SoTagsProvider : IRemoteTagsProvider
   private readonly HttpClient _httpClient;
   private readonly ILogger<SoTagsProvider> _logger;
   private readonly IConfiguration _configuration;
-  private readonly TagsSort _sort;
 
-  public SoTagsProvider(LocalTagsContext context,
+  public SoTagsProvider(
     ILogger<SoTagsProvider> logger,
     IConfiguration configuration,
     HttpClient? httpClient = null)
@@ -126,11 +126,8 @@ public class SoTagsProvider : IRemoteTagsProvider
   {
     var key = _configuration["Api:StackExchange:key"]!;
     var filter = _configuration["Api:StackExchange:filter"]!;
-    var sortString =
-      sort > (TagsSort)1
-        ? "popular"
-        : "name"; // turn that into something that humans can understand fast
-    var orderString = (int)sort % 2 == 0 ? "asc" : "desc";
+    var sortString = sort.ToSortString();
+    var orderString = sort.ToOrderString();
     return
       new HttpRequestMessage(HttpMethod.Get,
         ApiUrl +

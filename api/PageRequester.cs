@@ -7,14 +7,6 @@ using SO_tags.TagsSorting;
 
 namespace SO_tags;
 
-public enum TagsSort
-{
-  NameAsc,
-  NameDesc,
-  ShareAsc,
-  ShareDesc
-}
-
 public class PageRequester(
   LocalTagsContext db,
   TagsSort sortOrder,

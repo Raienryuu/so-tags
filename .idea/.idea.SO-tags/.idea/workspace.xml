@@ -13,17 +13,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/ITagSortOrder.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/NameAscSort.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/NameDescSort.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/ShareAscSort.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/ShareDescSort.cs" afterDir="false" />
+    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0.">
+      <change afterPath="$PROJECT_DIR$/api/TagsSorting/TagSort.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/api/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/Controllers/TagsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Controllers/TagsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/DTOs/QueryFilter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/DTOs/QueryFilter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/PageRequester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/PageRequester.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContextBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContextBuilder.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/SOTagsIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/SOTagsIntegrationTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/SOTagsProviderUnitTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/SOTagsProviderUnitTests.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apiTests/Stubs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Stubs.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,7 +65,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    ".NET Launch Settings Profile.SO-tags: http.executor": "Debug",
+    ".NET Launch Settings Profile.SO-tags: http.executor": "Run",
     ".NET Launch Settings Profile.SO-tags: https.executor": "Debug",
     ".NET Launch Settings Profile.SO-tagsTests: http.executor": "Run",
     "Docker.Docker Image.executor": "Run",
@@ -99,7 +101,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "HotReloadSettingsPage",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -356,7 +358,7 @@
       <workItem from="1712668606334" duration="2000" />
       <workItem from="1712668659155" duration="310000" />
       <workItem from="1712669626483" duration="762000" />
-      <workItem from="1712730529033" duration="8636000" />
+      <workItem from="1712730529033" duration="12856000" />
     </task>
     <task id="LOCAL-00001" summary="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request.">
       <option name="closed" value="true" />
@@ -382,7 +384,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712668961763</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0.">
+      <option name="closed" value="true" />
+      <created>1712744418323</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1712744418323</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -394,7 +404,8 @@
     <MESSAGE value="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request." />
     <MESSAGE value="Merging" />
     <MESSAGE value="Removed unused and cleaned up code." />
-    <option name="LAST_COMMIT_MESSAGE" value="Removed unused and cleaned up code." />
+    <MESSAGE value="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0." />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -409,5 +420,9 @@
         <watch expression="tagsToGetFromRemote" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

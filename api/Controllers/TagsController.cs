@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using SO_tags.DTOs;
 using SO_tags.Models;
 using SO_tags.Providers;
+using SO_tags.TagsSorting;
 
 namespace SO_tags.Controllers;
 
@@ -35,7 +36,7 @@ public class TagsController(
   [ProducesResponseType(typeof(IEnumerable<Tag>), StatusCodes.Status200OK)]
   public async Task<IActionResult> GetPage([FromQuery] QueryFilter args)
   {
-    var cache = new PageRequester(db, GetSortType(args), remoteTagsProvider,
+    var cache = new PageRequester(db, TagSorting.GetSortTypeFrom(args.Sort, args.Order), remoteTagsProvider,
       logger, args.PageNumber, args.PageSize);
     try
     {
@@ -52,20 +53,4 @@ public class TagsController(
     }
   }
 
-  private TagsSort GetSortType(QueryFilter args)
-  {
-    switch (args.Sort)
-    {
-      case "name":
-        if (args.Order?.ToLowerInvariant() == "desc")
-          return TagsSort.NameDesc;
-        return TagsSort.NameAsc;
-      case "share":
-        if (args.Order?.ToLowerInvariant() == "desc")
-          return TagsSort.ShareDesc;
-        return TagsSort.ShareAsc;
-    }
-
-    throw new ArgumentException("Invalid filter values provided.");
-  }
 }
