@@ -19,9 +19,9 @@ public class TagsController(
   /// </summary>
   /// <returns></returns>
   [HttpGet]
-  [Route("reloadAllTags")]
+  [Route("removeAllTags")]
   [ProducesResponseType(StatusCodes.Status200OK)]
-  public async Task<IActionResult> ReloadAllTags()
+  public async Task<IActionResult> RemoveAllTags()
   {
     await db.ClearDatabase();
     return Ok();
