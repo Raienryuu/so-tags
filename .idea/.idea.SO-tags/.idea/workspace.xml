@@ -13,19 +13,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0.">
-      <change afterPath="$PROJECT_DIR$/api/TagsSorting/TagSort.cs" afterDir="false" />
+    <list default="true" id="b51cdbb0-5760-4864-a685-aa3622964554" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/18c3bebd-f310-4530-993d-e121ff466d5a.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/dataSources/18c3bebd-f310-4530-993d-e121ff466d5a.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.SO-tags/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/api/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Controllers/TagsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Controllers/TagsController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/PageRequester.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/PageRequester.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/IRemoteTagsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" beforeDir="false" afterPath="$PROJECT_DIR$/api/Providers/SoTagsProvider.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContext.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContextBuilder.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Fakes/FakeLocalTagsContextBuilder.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apiTests/SOTagsIntegrationTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/SOTagsIntegrationTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apiTests/SOTagsProviderUnitTests.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/SOTagsProviderUnitTests.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apiTests/Stubs.cs" beforeDir="false" afterPath="$PROJECT_DIR$/apiTests/Stubs.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,55 +54,55 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.SO-tags: http.executor": "Run",
-    ".NET Launch Settings Profile.SO-tags: https.executor": "Debug",
-    ".NET Launch Settings Profile.SO-tagsTests: http.executor": "Run",
-    "Docker.Docker Image.executor": "Run",
-    "Docker.Docker-compose.executor": "Run",
-    "Docker.Dockerfile base.executor": "Run",
-    "Docker.Dockerfile final.executor": "Run",
-    "Docker.Dockerfile-tests build.executor": "Run",
-    "Docker.Dockerfile-tests final.executor": "Run",
-    "Docker.Dockerfile-tests publish.executor": "Run",
-    "Docker.Dockerfile-tests.executor": "Run",
-    "Docker.Dockerfile.executor": "Run",
-    "Docker.SO-tags/Dockerfile.executor": "Run",
-    "Docker.apiTests/Dockerfile base.executor": "Run",
-    "Docker.apiTests/Dockerfile build.executor": "Run",
-    "Docker.apiTests/Dockerfile publish.executor": "Run",
-    "Docker.apiTests/Dockerfile.executor": "Run",
-    "Docker.docker-compose.yml.api: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.api_with_tests: Compose Deployment.executor": "Run",
-    "Docker.docker-compose.yml.tests: Compose Deployment.executor": "Run",
-    "HTTP Request.All in SO-tags.executor": "Run",
-    "HTTP Request.SO_tags-endpoints | #1.executor": "Run",
-    "HTTP Request.SO_tags-endpoints_2 | #1.executor": "Run",
-    "HTTP Request.SO_tags-endpoints_3 | #1.executor": "Run",
-    "HTTP Request.SO_tags-endpoints_4 | #1.executor": "Run",
-    "OpenAPI/Swagger Code Generator.SO_tags-openapi_2.yaml.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "df696dba-2de5-4be2-ba28-681607d0f34b.executor": "Run",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.SO-tags: http.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.SO-tags: https.executor&quot;: &quot;Debug&quot;,
+    &quot;.NET Launch Settings Profile.SO-tagsTests: http.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker Image.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Docker-compose.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile base.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile final.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile-tests build.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile-tests final.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile-tests publish.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile-tests.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.SO-tags/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.apiTests/Dockerfile base.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.apiTests/Dockerfile build.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.apiTests/Dockerfile publish.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.apiTests/Dockerfile.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.api: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.api_with_tests: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;Docker.docker-compose.yml.tests: Compose Deployment.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.All in SO-tags.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.SO_tags-endpoints | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.SO_tags-endpoints_2 | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.SO_tags-endpoints_3 | #1.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.SO_tags-endpoints_4 | #1.executor&quot;: &quot;Run&quot;,
+    &quot;OpenAPI/Swagger Code Generator.SO_tags-openapi_2.yaml.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;df696dba-2de5-4be2-ba28-681607d0f34b.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "rider.external.source.directories": [
-      "C:\\Users\\Peter\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache",
-      "C:\\Users\\Peter\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache",
-      "C:\\Users\\Peter\\AppData\\Local\\Symbols\\src"
+  &quot;keyToStringList&quot;: {
+    &quot;rider.external.source.directories&quot;: [
+      &quot;C:\\Users\\Peter\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\Peter\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\Peter\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.SO-tags: http">
     <configuration name="SO-tags" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="" />
@@ -358,7 +349,8 @@
       <workItem from="1712668606334" duration="2000" />
       <workItem from="1712668659155" duration="310000" />
       <workItem from="1712669626483" duration="762000" />
-      <workItem from="1712730529033" duration="12856000" />
+      <workItem from="1712730529033" duration="13212000" />
+      <workItem from="1715083931161" duration="51000" />
     </task>
     <task id="LOCAL-00001" summary="Added dynamically loading tags from remote API while local storage doesn't have enough tags to satisfy user request.">
       <option name="closed" value="true" />
@@ -392,7 +384,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712744418323</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added methods for TagsSort for readable transition between string values and TagSort object.">
+      <option name="closed" value="true" />
+      <created>1712752874209</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1712752874209</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -405,7 +405,8 @@
     <MESSAGE value="Merging" />
     <MESSAGE value="Removed unused and cleaned up code." />
     <MESSAGE value="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored PageRequester.cs switch plague.&#10;Docker file should now bind port properly.&#10;Pagination starts from page 1 instead of 0." />
+    <MESSAGE value="Added methods for TagsSort for readable transition between string values and TagSort object." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added methods for TagsSort for readable transition between string values and TagSort object." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

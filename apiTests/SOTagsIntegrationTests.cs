@@ -8,13 +8,13 @@ namespace apiTests
         readonly TagsApiFactory app = new();
 
         [Fact]
-        public async Task RemoveTagsInLocalStorage()
+        public async Task RemoveTagsInLocalStorage() 
         {
-            var httpClient = app.CreateClient();
+            var httpClient = app.CreateClient(); 
 
-            var response = await httpClient.GetAsync("Tags/reloadAllTags");
+            var response = await httpClient.GetAsync("Tags/reloadAllTags"); 
 
-            Assert.True(response.IsSuccessStatusCode);
+            Assert.True(response.IsSuccessStatusCode); 
         }
 
         [Fact]

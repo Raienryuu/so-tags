@@ -499,7 +499,7 @@
     <routine id="190" parent="1" name="fts3_tokenizer"/>
     <schema id="191" parent="1" name="main">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-04-09.13:01:23</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-04-10.12:39:57</LastIntrospectionLocalTimestamp>
     </schema>
     <argument id="192" parent="16">
       <ArgumentDirection>R</ArgumentDirection>
@@ -1590,110 +1590,99 @@
     <argument id="554" parent="190">
       <Position>2</Position>
     </argument>
-    <table id="555" parent="191" name="Tags"/>
-    <table id="556" parent="191" name="__EFMigrationsHistory"/>
+    <table id="555" parent="191" name="Metadata"/>
+    <table id="556" parent="191" name="Tags"/>
     <table id="557" parent="191" name="sqlite_master">
       <System>1</System>
     </table>
-    <column id="558" parent="555" name="Name">
+    <column id="558" parent="555" name="TotalTags">
+      <DasType>INTEGER|0s</DasType>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+    </column>
+    <key id="559" parent="555" name="PK_Metadata">
+      <ColNames>TotalTags</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="560" parent="556" name="Name">
       <DasType>TEXT|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="559" parent="555" name="Count">
+    <column id="561" parent="556" name="Count">
       <DasType>INTEGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="560" parent="555" name="HasSynonyms">
+    <column id="562" parent="556" name="HasSynonyms">
       <DasType>INTEGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="561" parent="555" name="IsModeratorOnly">
+    <column id="563" parent="556" name="IsModeratorOnly">
       <DasType>INTEGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="562" parent="555" name="IsRequired">
+    <column id="564" parent="556" name="IsRequired">
       <DasType>INTEGER|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="563" parent="555" name="Synonyms">
+    <column id="565" parent="556" name="Synonyms">
       <DasType>TEXT|0s</DasType>
       <Position>6</Position>
     </column>
-    <column id="564" parent="555" name="LocalTagsPercentage">
+    <column id="566" parent="556" name="LocalTagsPercentage">
       <DasType>REAL|0s</DasType>
       <Position>7</Position>
     </column>
-    <column id="565" parent="555" name="NameAscPosition">
+    <column id="567" parent="556" name="NameAscPosition">
       <DasType>INTEGER|0s</DasType>
       <Position>8</Position>
     </column>
-    <column id="566" parent="555" name="NameDescPosition">
+    <column id="568" parent="556" name="NameDescPosition">
       <DasType>INTEGER|0s</DasType>
       <Position>9</Position>
     </column>
-    <column id="567" parent="555" name="ShareAscPosition">
+    <column id="569" parent="556" name="ShareAscPosition">
       <DasType>INTEGER|0s</DasType>
       <Position>10</Position>
     </column>
-    <column id="568" parent="555" name="ShareDescPosition">
+    <column id="570" parent="556" name="ShareDescPosition">
       <DasType>INTEGER|0s</DasType>
       <Position>11</Position>
     </column>
-    <index id="569" parent="555" name="sqlite_autoindex_Tags_1">
+    <index id="571" parent="556" name="sqlite_autoindex_Tags_1">
       <ColNames>Name</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <Unique>1</Unique>
     </index>
-    <index id="570" parent="555" name="IX_Tags_Count">
+    <index id="572" parent="556" name="IX_Tags_Count">
       <ColNames>Count</ColNames>
     </index>
-    <key id="571" parent="555" name="PK_Tags">
+    <key id="573" parent="556" name="PK_Tags">
       <ColNames>Name</ColNames>
       <Primary>1</Primary>
       <UnderlyingIndexName>sqlite_autoindex_Tags_1</UnderlyingIndexName>
     </key>
-    <column id="572" parent="556" name="MigrationId">
-      <DasType>TEXT|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>1</Position>
-    </column>
-    <column id="573" parent="556" name="ProductVersion">
-      <DasType>TEXT|0s</DasType>
-      <NotNull>1</NotNull>
-      <Position>2</Position>
-    </column>
-    <index id="574" parent="556" name="sqlite_autoindex___EFMigrationsHistory_1">
-      <ColNames>MigrationId</ColNames>
-      <NameSurrogate>1</NameSurrogate>
-      <Unique>1</Unique>
-    </index>
-    <key id="575" parent="556" name="PK___EFMigrationsHistory">
-      <ColNames>MigrationId</ColNames>
-      <Primary>1</Primary>
-      <UnderlyingIndexName>sqlite_autoindex___EFMigrationsHistory_1</UnderlyingIndexName>
-    </key>
-    <column id="576" parent="557" name="type">
+    <column id="574" parent="557" name="type">
       <DasType>TEXT|0s</DasType>
       <Position>1</Position>
     </column>
-    <column id="577" parent="557" name="name">
+    <column id="575" parent="557" name="name">
       <DasType>TEXT|0s</DasType>
       <Position>2</Position>
     </column>
-    <column id="578" parent="557" name="tbl_name">
+    <column id="576" parent="557" name="tbl_name">
       <DasType>TEXT|0s</DasType>
       <Position>3</Position>
     </column>
-    <column id="579" parent="557" name="rootpage">
+    <column id="577" parent="557" name="rootpage">
       <DasType>INT|0s</DasType>
       <Position>4</Position>
     </column>
-    <column id="580" parent="557" name="sql">
+    <column id="578" parent="557" name="sql">
       <DasType>TEXT|0s</DasType>
       <Position>5</Position>
     </column>
