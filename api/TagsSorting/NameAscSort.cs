@@ -4,7 +4,7 @@ namespace SO_tags.TagsSorting;
 
 public class NameAscSort : ITagSortOrder
 {
-  public IOrderedEnumerable<Tag> SelectOnlyRequestedRange(
+  public IOrderedEnumerable<Tag> OrderTags(
     IEnumerable<Tag> combinedTags)
   {
     return combinedTags.OrderBy(x => x.NameAscPosition);

@@ -4,7 +4,7 @@ namespace SO_tags.TagsSorting;
 
 public interface ITagSortOrder
 {
-  public IOrderedEnumerable<Tag> SelectOnlyRequestedRange(
+  public IOrderedEnumerable<Tag> OrderTags(
     IEnumerable<Tag> combinedTags);
 
   public void RemoveFoundTagsFromMissing(IEnumerable<Tag> tagsRange,

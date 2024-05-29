@@ -12,7 +12,7 @@ namespace apiTests
         {
             var httpClient = app.CreateClient(); 
 
-            var response = await httpClient.GetAsync("Tags/reloadAllTags"); 
+            var response = await httpClient.GetAsync("Tags/removeAllTags"); 
 
             Assert.True(response.IsSuccessStatusCode); 
         }
