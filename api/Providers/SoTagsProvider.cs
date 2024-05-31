@@ -44,7 +44,7 @@ public class SoTagsProvider : IRemoteTagsProvider
 
   private static void HandleBackoff(int timer)
   {
-    Thread.Sleep(timer * 1100);
+    Task.Delay(timer * 1100);
   }
 
   private async Task<StackExchangeResponseWrapper<Tag>> TryGetSinglePage(
