@@ -3,7 +3,7 @@ using SO_tags;
 
 namespace apiTests
 {
-    public class SOTagsIntergrationTests : WebApplicationFactory<Program>
+    public class SOTagsIntergrationTests
     {
         readonly TagsApiFactory app = new();
 

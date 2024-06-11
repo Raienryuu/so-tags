@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging.Abstractions;
 using SO_tags;
 
 namespace SO_tagsTests.Fakes;
@@ -6,7 +7,7 @@ namespace SO_tagsTests.Fakes;
 public class FakeLocalTagsContextBuilder : IDisposable
 {
   private readonly FakeLocalTagsContext _context =
-    new(NullLogger<LocalTagsContext>.Instance);
+    new(new DbContextOptions<LocalTagsContext>(), NullLogger<LocalTagsContext>.Instance);
 
   private async Task<FakeLocalTagsContextBuilder> WithTags()
   {
@@ -24,5 +25,6 @@ public class FakeLocalTagsContextBuilder : IDisposable
   {
     _context.Database.EnsureDeleted();
     _context.Dispose();
+    GC.SuppressFinalize(this);
   }
 }

@@ -7,16 +7,11 @@ public class LocalTagsContext : DbContext
 {
   private readonly ILogger<LocalTagsContext> _logger;
 
-  public LocalTagsContext(ILogger<LocalTagsContext> logger)
+  public LocalTagsContext(DbContextOptions<LocalTagsContext> options, ILogger<LocalTagsContext> logger) : base(options)
   {
     _logger = logger;
   }
 
-  protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-  {
-    base.OnConfiguring(optionsBuilder);
-    optionsBuilder.UseSqlite("Data Source=tags.dat");
-  }
 
   protected override void OnModelCreating(ModelBuilder modelBuilder)
   {

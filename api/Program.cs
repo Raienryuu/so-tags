@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using SO_tags.Options;
 using SO_tags.Providers;
 
 namespace SO_tags;
@@ -6,46 +8,52 @@ public class Program
 {
   public static void Main(string[] args)
   {
-    var builder = WebApplication.CreateBuilder(args);
+	var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddAuthorization();
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
-    builder.Services.AddControllers();
-    builder.Services.AddScoped<IRemoteTagsProvider, SoTagsProvider>();
-    builder.Services.AddLogging();
-    builder.Services.AddDbContext<LocalTagsContext>();
+	builder.Services.AddAuthorization();
+	builder.Services.AddEndpointsApiExplorer();
+	builder.Services.AddSwaggerGen();
+	builder.Services.AddControllers();
+	builder.Services.AddScoped<IRemoteTagsProvider, SoTagsProvider>();
+	builder.Services.AddLogging();
 
-    var db = GetDatabaseContext(builder.Services);
-    db.Database.EnsureDeletedAsync();
-    db.Database.EnsureCreatedAsync();
+	builder.Services.AddDbContext<LocalTagsContext>(o =>
+	  o.UseSqlite(builder.Configuration["ConnectionStrings:LocalFileDB"]));
+	string test = builder.Configuration["ConnectionStrings:LocalFileDB"];
 
-    var app = builder.Build();
+	builder.Services.Configure<ApiOptions>(
+	  builder.Configuration.GetSection("ApiOptions:StackExchange"));
 
-    // if (app.Environment.IsDevelopment())
-    // {
-    app.UseSwagger();
-    app.UseSwaggerUI(o =>
-    {
-      o.SwaggerEndpoint("/swagger/openapi.json", "v1");
-      o.RoutePrefix = string.Empty;
-    });
-    // }
+	var db = GetDatabaseContext(builder.Services);
+	db.Database.EnsureDeletedAsync();
+	db.Database.EnsureCreatedAsync();
 
-    app.UseHttpsRedirection();
+	var app = builder.Build();
 
-    app.UseStaticFiles();
+	// if (app.Environment.IsDevelopment())
+	// {
+	app.UseSwagger();
+	app.UseSwaggerUI(o =>
+	{
+	  o.SwaggerEndpoint("/swagger/openapi.json", "v1");
+	  o.RoutePrefix = string.Empty;
+	});
+	// }
 
-    app.MapControllers().WithOpenApi();
+	app.UseHttpsRedirection();
 
-    app.Run();
+	app.UseStaticFiles();
+
+	app.MapControllers().WithOpenApi();
+
+	app.Run();
   }
 
   private static LocalTagsContext GetDatabaseContext(
-    IServiceCollection services)
+	IServiceCollection services)
   {
-    var servicesProvider = services.BuildServiceProvider();
-    var scope = servicesProvider.CreateScope();
-    return scope.ServiceProvider.GetRequiredService<LocalTagsContext>();
+	var servicesProvider = services.BuildServiceProvider();
+	var scope = servicesProvider.CreateScope();
+	return scope.ServiceProvider.GetRequiredService<LocalTagsContext>();
   }
 }
