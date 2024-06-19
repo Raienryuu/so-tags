@@ -19,7 +19,6 @@ public class Program
 
 	builder.Services.AddDbContext<LocalTagsContext>(o =>
 	  o.UseSqlite(builder.Configuration["ConnectionStrings:LocalFileDB"]));
-	string test = builder.Configuration["ConnectionStrings:LocalFileDB"];
 
 	builder.Services.Configure<ApiOptions>(
 	  builder.Configuration.GetSection("ApiOptions:StackExchange"));
